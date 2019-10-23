@@ -28,7 +28,8 @@ NTPClient timeClient(ntpUDP, "0.de.pool.ntp.org", 3600);
 
 char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(32, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
-IPAddress clock_ip(192, 168, 0, 54);
+IPAddress clock_ip(192, 168, 1, 54);
+IPAddress clock_gateway(192, 168, 1, 1);
 IPAddress local_ip(192, 168, 4, 54);
 IPAddress gateway(192, 168, 4, 1);
 IPAddress subnet(255, 255, 255, 0);

@@ -1,7 +1,8 @@
 
 
-void initClock() {
-  
+void initClock()
+{
+
   timeClient.begin();
   delay(20);
   checkCorners();
@@ -16,9 +17,8 @@ void checkCorners()
   {
     for (int i = 0; i <= cornerID; i++)
     {
-       turnOnLed(CORNER_LEDS[i]);
+      turnOnLed(CORNER_LEDS[i]);
     }
-   
   }
   else
   {
@@ -31,40 +31,39 @@ void checkCorners()
   pixels.show();
 }
 
-void checkTime() {
+void checkTime()
+{
 
   checkCorners();
 
-  
-    minutes = timeClient.getMinutes();
-    minutes = minutes - (minutes % 5);
-    hours = timeClient.getHours()+1;
-    if(timeClient.getMinutes() > 19) {
-      hours += 1;
-    }
-    if(hours > 12) {
-      hours = hours - 12;
-    }
-    processTime();
-     
+  minutes = timeClient.getMinutes();
+  minutes = minutes - (minutes % 5);
+  hours = timeClient.getHours() + 1;
+  if (timeClient.getMinutes() > 19)
+  {
+    hours += 1;
+  }
+  if (hours > 12)
+  {
+    hours = hours - 12;
+  }
+  processTime();
 
-  Serial.println(timeClient.getEpochTime());
+  // Serial.println(timeClient.getEpochTime());
 
-  Serial.print(timeClient.getHours());
-  Serial.print(":");
-  Serial.print(timeClient.getMinutes());
-  Serial.print(":");
-  Serial.println(timeClient.getSeconds());
+  // Serial.print(timeClient.getHours());
+  // Serial.print(":");
+  // Serial.print(timeClient.getMinutes());
+  // Serial.print(":");
+  // Serial.println(timeClient.getSeconds());
   //Serial.println(timeClient.getFormattedTime());
-
 }
 
 void processTime()
 {
 
-
   clearAll();
-  
+
   turnOnLed(ES);
   turnOnLed(IST);
   switch (minutes)
@@ -77,7 +76,7 @@ void processTime()
   case 10:
     turnOnLed(ZEHN);
     turnOnLed(NACH);
- 
+
     break;
   case 15:
     turnOnLed(VIERTEL);
@@ -125,44 +124,44 @@ void processTime()
   switch (hours)
   {
   case 1:
-     turnOnLed(EINS);
+    turnOnLed(EINS);
     break;
   case 2:
     turnOnLed(ZWEI);
     break;
   case 3:
-  turnOnLed(DREI);
+    turnOnLed(DREI);
     break;
   case 4:
-  turnOnLed(VIER);
+    turnOnLed(VIER);
     break;
   case 5:
-  turnOnLed(FUENF_STUNDE);
+    turnOnLed(FUENF_STUNDE);
     break;
   case 6:
-  turnOnLed(SECHS);
+    turnOnLed(SECHS);
     break;
   case 7:
-  turnOnLed(SIEBEN);
+    turnOnLed(SIEBEN);
     break;
   case 8:
-  turnOnLed(ACHT);
+    turnOnLed(ACHT);
     break;
   case 9:
-  turnOnLed(NEUN);
+    turnOnLed(NEUN);
 
     break;
   case 10:
-  turnOnLed(ZEHN_STUNDE);
+    turnOnLed(ZEHN_STUNDE);
 
     break;
   case 11:
-  turnOnLed(ELF);
- 
+    turnOnLed(ELF);
+
     break;
   case 12:
-  turnOnLed(ZWOELF);
-    
+    turnOnLed(ZWOELF);
+
     break;
   default:
     break;

@@ -36,35 +36,26 @@ void wifiConnect()
 
       if (jObject.success())
       {
-
-        String ssid = jObject["ssid"];
-        String password = jObject["password"];
-        String gateway = jObject["gateway"];
-      
-        
-        WiFi.config(clock_ip, clock_ip, subnet);
-        WiFi.begin(ssid, password);
-        createConnection();
-        // if(gateway) {
-        //   WiFi.mode(WIFI_STA);
-        //   WiFi.config("192.168.0.112", gateway, subnet);
-        //   WiFi.begin(ssid, password);
-        //   createConnection();
-        // } else {
-        //   WiFi.mode(WIFI_STA);
-        //   WiFi.begin(ssid, password);
-        //   createConnection();
-        //   String nGateway = WiFi.gatewayIP();
-        //   String nSubnet = WiFi.subnetMask();
-        //   Serial.println(nGateway);
-        //   Serial.println(nGateway);
-        //   jObject["gateway"] = nGateway;
-        //   jObject["subnet"] = nSubnet;
-        //   WiFi.config("192.168.0.112", nGateway, nSubnet);
-        //   WiFi.reconnect();
-        // }
+          String ssid = jObject["ssid"];
+          String password = jObject["password"];
+           WiFi.mode(WIFI_STA);
+           WiFi.begin(ssid, password);
+           createConnection();
+           IPAddress nGateway = WiFi.gatewayIP();
+           IPAddress nSubnet = WiFi.subnetMask();
+           IPAddress nIP = WiFi.gatewayIP();
+           nIP[3] = 77;
+           Serial.println(nGateway);
+           Serial.println(nSubnet);
+           Serial.println(nIP); 
+           WiFi.config(nIP, nGateway, nSubnet);
+           WiFi.reconnect();
+           createConnection();
+           Serial.println(WiFi.localIP());
+         
       }
     }
+   
   }
   else
   {
