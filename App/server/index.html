@@ -1,0 +1,188 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cl{}ck</title>
+    <style>
+      html,
+      body {
+        padding: 0px;
+        margin: 0;
+        background: #000;
+        color: #fff;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: "Fira Code", monospace;
+      }
+      .container {
+        width: 100%;
+        height: 100vh;
+        border: 1px solid white;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        opacity: 0;
+        max-width: 500px;
+        animation: show 2s;
+        animation-delay: 5s;
+        animation-fill-mode: forwards;
+      }
+
+      form.pending .group {
+        opacity: 0;
+        max-height: 1px;
+      }
+      form.pending button {
+        background: none;
+        font-size: 32px;
+      }
+      .group {
+        margin: 10px 0;
+        transition: all 1s;
+        max-height: 200px;
+        overflow: hidden;
+      }
+      label {
+        display: block;
+      }
+      input,
+      button {
+        margin: 16px 0;
+        border: 0px solid #222;
+        padding: 10px 16px;
+        background: #111;
+        color: #ddd;
+        width: 100%;
+        box-sizing: border-box;
+      }
+      button {
+        margin-top: 20px;
+        width: 230px;
+        align-self: center;
+        transition: all 200ms;
+      }
+      button:active,
+      button:focus {
+        outline: none;
+      }
+      button:hover {
+        background: #333;
+        text-decoration: underline;
+      }
+      h1 {
+        position: fixed;
+        left: 0;
+        right: 0;
+        font-weight: 400;
+        text-align: center;
+        animation: down 0.5s ease-in;
+        animation-delay: 5s;
+
+        animation-fill-mode: forwards;
+        transform: scale(2);
+      }
+
+      h1 span {
+        opacity: 0;
+        animation: logo 1s ease-in;
+        animation-delay: 2s;
+        animation-fill-mode: forwards;
+      }
+      button span {
+        animation: fade 3s infinite;
+      }
+
+      button span:nth-child(2) {
+        animation-delay: 0.333s;
+      }
+
+      button span:nth-child(3) {
+        animation-delay: 0.666s;
+      }
+
+      @keyframes fade {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      @keyframes show {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+      @keyframes logo {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0.9;
+        }
+      }
+      @keyframes down {
+        0% {
+          top: 50%;
+          transform: scale(2);
+        }
+        100% {
+          top: 90%;
+          transform: scale(1);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <div class="group">
+        <label for="ssid">wifi-name</label>
+        <input name="ssid" id="ssid" placeholder="z.B. MeinNetzwerk" />
+      </div>
+      <div class="group">
+        <label for="password">passwort</label>
+        <input name="password" id="password" type="password" />
+      </div>
+      <button>save</button>
+    </form>
+    <h1><span>cl</span>{}<span>ck</span></h1>
+    <script>
+      const form = document.querySelector("form");
+      const btn = document.querySelector("button");
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        form.classList.add("pending");
+        btn.innerHTML = "<span>.</span><span>.</span><span>.</span>";
+
+        var password = document.querySelector("#password").value;
+        var ssid = document.querySelector("#ssid").value;
+        var xhttp = new XMLHttpRequest();
+
+        var jsonData = {
+          ssid: ssid,
+          password: password
+        };
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            btn.innerHTML =
+              '<span style="font-size: 18px">' + xhttp.responseText + "</span>";
+          }
+        };
+        var url = `http://192.168.4.54/login`;
+        xhttp.open("POST", url, true);
+        xhttp.send(JSON.stringify(jsonData));
+      });
+    </script>
+  </body>
+</html>

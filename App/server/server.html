@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>w{}rdclock</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+    <style>
+      :root {
+        --color-one: #026873;
+        --color-two: #03a6a6;
+        --color-three: #f2b28d;
+        --color-four: #d96e48;
+        --color-five: #bf4545;
+      }
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        background: #000;
+      }
+      .color-grid {
+        width: 100%;
+        height: 100vh;
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .color-grid__color {
+        height: 100%;
+      }
+      .color-grid__color:nth-child(1) {
+        background: var(--color-one);
+      }
+      .color-grid__color:nth-child(2) {
+        background: var(--color-two);
+      }
+      .color-grid__color:nth-child(3) {
+        background: var(--color-three);
+      }
+      .color-grid__color:nth-child(4) {
+        background: var(--color-four);
+      }
+      .color-grid__color:nth-child(5) {
+        background: var(--color-five);
+      }
+    </style>
+    <script>
+      var xhttp = new XMLHttpRequest();
+      function setColor(e) {
+        var rgbString = e.style.backgroundColor
+          .replace("rgb(", "")
+          .replace(")", "");
+
+        var rgbArray = rgbString.split(", ");
+        console.log(rgbArray);
+        xhttp.open(
+          "GET",
+          "http://192.168.1.7/setColor?r=" +
+            rgbArray[0] +
+            "&g=" +
+            rgbArray[1] +
+            "&b=" +
+            rgbArray[2],
+          true
+        );
+        xhttp.send();
+      }
+    </script>
+  </head>
+  <body>
+    <div class="color-grid">
+      <div
+        style="background-color:#026873"
+        class="color-grid__color"
+        onClick="setColor(this)"
+      ></div>
+      <div
+        onClick="setColor(this)"
+        style="background-color: #03a6a6"
+        class="color-grid__color"
+      ></div>
+      <div
+        onClick="setColor(this)"
+        style="background-color:#bf4545"
+        class="color-grid__color"
+      ></div>
+      <div
+        onClick="setColor(this)"
+        style="background-color:#d96e48"
+        class="color-grid__color"
+      ></div>
+      <div
+        onClick="setColor(this)"
+        style="background-color:#f2b28d"
+        class="color-grid__color"
+      ></div>
+    </div>
+  </body>
+</html>
