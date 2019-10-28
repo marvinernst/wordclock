@@ -24,7 +24,7 @@ void checkCorners()
   {
     for (int i = 0; i < 4; i++)
     {
-      pixels.setPixelColor(CORNER_LEDS[i][0], pixels.Color(0, 0, 0));
+      pixels.setPixelColor(CORNER_LEDS[i][1], pixels.Color(0, 0, 0));
     }
   }
 
@@ -38,8 +38,12 @@ void checkTime()
 
   minutes = timeClient.getMinutes();
   minutes = minutes - (minutes % 5);
-  hours = timeClient.getHours() + 1;
-  if (timeClient.getMinutes() > 19)
+  hours = timeClient.getHours();
+  Serial.println();
+  Serial.println(hours);
+  Serial.print("Stunden");
+
+  if (timeClient.getMinutes() > 20)
   {
     hours += 1;
   }
@@ -47,7 +51,13 @@ void checkTime()
   {
     hours = hours - 12;
   }
-  processTime();
+
+  if (minutes != lastMinute)
+  {
+    clearAll();
+    lastMinute = minutes;
+    processTime();
+  }
 
   // Serial.println(timeClient.getEpochTime());
 
@@ -62,7 +72,7 @@ void checkTime()
 void processTime()
 {
 
-  clearAll();
+  //  clearAll();
 
   turnOnLed(ES);
   turnOnLed(IST);
@@ -91,6 +101,7 @@ void processTime()
   case 25:
     turnOnLed(FUENF);
     turnOnLed(VOR);
+    turnOnLed(HALB);
     break;
   case 30:
     turnOnLed(HALB);
@@ -166,5 +177,4 @@ void processTime()
   default:
     break;
   }
-  pixels.show();
 }

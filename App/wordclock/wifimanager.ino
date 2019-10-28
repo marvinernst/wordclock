@@ -3,9 +3,9 @@ void createConnection()
   unsigned long startTime = millis();
   while (WiFi.status() != WL_CONNECTED)
   {
-    delay(500);
+    led_controller_count();
     Serial.print(".");
-    if (millis() - startTime > 10000)
+    if (millis() - startTime > 20000)
     {
       Serial.println("Connection Timeout");
       break;
@@ -36,26 +36,24 @@ void wifiConnect()
 
       if (jObject.success())
       {
-          String ssid = jObject["ssid"];
-          String password = jObject["password"];
-           WiFi.mode(WIFI_STA);
-           WiFi.begin(ssid, password);
-           createConnection();
-           IPAddress nGateway = WiFi.gatewayIP();
-           IPAddress nSubnet = WiFi.subnetMask();
-           IPAddress nIP = WiFi.gatewayIP();
-           nIP[3] = 77;
-           Serial.println(nGateway);
-           Serial.println(nSubnet);
-           Serial.println(nIP); 
-           WiFi.config(nIP, nGateway, nSubnet);
-           WiFi.reconnect();
-           createConnection();
-           Serial.println(WiFi.localIP());
-         
+        String ssid = jObject["ssid"];
+        String password = jObject["password"];
+        WiFi.mode(WIFI_STA);
+        WiFi.begin(ssid, password);
+        createConnection();
+        IPAddress nGateway = WiFi.gatewayIP();
+        IPAddress nSubnet = WiFi.subnetMask();
+        IPAddress nIP = WiFi.gatewayIP();
+        nIP[3] = 77;
+        Serial.println(nGateway);
+        Serial.println(nSubnet);
+        Serial.println(nIP);
+        WiFi.config(nIP, nGateway, nSubnet);
+        WiFi.reconnect();
+        createConnection();
+        Serial.println(WiFi.localIP());
       }
     }
-   
   }
   else
   {
@@ -67,6 +65,9 @@ void wifiConnect()
     {
       Serial.println("AccesPointMode");
       WiFi.mode(WIFI_AP);
+      WiFi.softAPConfig(local_ip, gateway, subnet);
+      WiFi.softAP("cl{}ck", "123456789");
+      Serial.println(WiFi.gatewayIP());
     }
   }
   Serial.println("");
